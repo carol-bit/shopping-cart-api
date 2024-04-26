@@ -1,0 +1,57 @@
+# Endpoints
+endpoints:
+  restart:
+    enabled: true
+
+
+# Server
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ${logging.path}/
+      prefix: ${spring.application.name}_access_log
+  compression:
+    enabled: true
+  error:
+    include-message: always
+
+spring:
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss.SSS"
+    time-zone: "GMT-3"
+    serialization:
+      write-dates-as-timestamps: false
+
+# SpringFox
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger2.json
+
+
+spring.autoconfigure.exclude: >-
+  org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+  org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,
+  org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+info:
+  application:
+    version: v1
+
+
+# Feign
+feign:
+  compression:
+    request:
+      mime-types: "application/json"
+  client:
+    config:
+      default:
+        loggerLevel: full
+integration:
+  wiremock:
+    host: "http://localhost:8081"
+
