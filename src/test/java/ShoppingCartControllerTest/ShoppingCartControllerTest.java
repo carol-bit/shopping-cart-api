@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import shoppingcart.controller.ShoppingCartController;
+import shoppingcart.domain.AddItemRequest;
 import shoppingcart.domain.ExpectedTotals;
 import shoppingcart.domain.Product;
 import shoppingcart.service.ShoppingCartService;
@@ -31,6 +32,8 @@ public class ShoppingCartControllerTest {
     @Mock
     ExpectedTotals expectedTotals;
 
+    private final AddItemRequest addItemRequest = AddItemRequest.builder().quantity(2).productId("PWWe3w1SDU").build();
+
     @Test
     void testGetProductsList() {
         List<Product> productList = new ArrayList<>();
@@ -46,8 +49,8 @@ public class ShoppingCartControllerTest {
 
     @Test
     void testAddItemsToCar() {
-        ResponseEntity<Void> response = controller.addItemsToBasket("PWWe3w1SDU", 2);
-        verify(service).addItemsToBasket("PWWe3w1SDU", 2);
+        ResponseEntity<Void> response = controller.addItemsToBasket(addItemRequest);
+        verify(service).addItemsToBasket(addItemRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

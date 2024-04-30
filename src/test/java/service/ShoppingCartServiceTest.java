@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import shoppingcart.domain.AddItemRequest;
 import shoppingcart.domain.Product;
 import shoppingcart.domain.Promotions;
 import shoppingcart.infrainstructure.client.WiremockClient;
@@ -46,6 +47,8 @@ public class ShoppingCartServiceTest {
             .productPrice(BigDecimal.valueOf(999.50))
             .build();
 
+    private final AddItemRequest addItemRequest = AddItemRequest.builder().quantity(2).productId("PWWe3w1SDU").build();
+
     @BeforeEach
     void setUp() {
         productHashmap = new HashMap<>();
@@ -63,7 +66,7 @@ public class ShoppingCartServiceTest {
     @Test
     void testadditemsToBasket() {
         when(client.getProduct(any())).thenReturn(product);
-        service.addItemsToBasket("PWWe3w1SDU", 2);
+        service.addItemsToBasket(addItemRequest);
         verify(client,times(1)).getProduct("PWWe3w1SDU");
     }
 
@@ -78,7 +81,7 @@ public class ShoppingCartServiceTest {
 
         when(client.getProduct(any())).thenReturn(product);
 
-        service.addItemsToBasket("PWWe3w1SDU", 2);
+        service.addItemsToBasket(addItemRequest);
         BigDecimal totalWithDiscounts = service.getTotalWithDiscounts();
 
         Assertions.assertEquals(BigDecimal.valueOf(999.50), totalWithDiscounts);

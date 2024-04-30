@@ -3,6 +3,7 @@ package shoppingcart.controller;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import shoppingcart.domain.AddItemRequest;
 import shoppingcart.domain.Product;
 import shoppingcart.service.ShoppingCartService;
 import shoppingcart.domain.ExpectedTotals;
@@ -48,8 +49,8 @@ public class ShoppingCartController {
     @PostMapping (path = {"/basket/item"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<Void> addItemsToBasket(String productId, @RequestHeader Integer quantity) {
-        service.addItemsToBasket(productId, quantity);
+    public ResponseEntity<Void> addItemsToBasket(@RequestBody AddItemRequest addItemRequest) {
+        service.addItemsToBasket(addItemRequest);
         return ResponseEntity.ok().build();
     }
 

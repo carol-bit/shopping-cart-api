@@ -2,12 +2,9 @@ package shoppingcart.service;
 
 import lombok.Data;
 import org.springframework.web.server.ResponseStatusException;
-import shoppingcart.domain.Promotions;
+import shoppingcart.domain.*;
 import shoppingcart.enums.PromotionsEnum;
 import lombok.AllArgsConstructor;
-import shoppingcart.domain.TotalBasketContents;
-import shoppingcart.domain.ExpectedTotals;
-import shoppingcart.domain.Product;
 import shoppingcart.infrainstructure.client.WiremockClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,10 +33,10 @@ public class ShoppingCartService {
         productHashmap.clear();
     }
 
-    public void addItemsToBasket(String productId, Integer quantity) {
+    public void addItemsToBasket(AddItemRequest addItemRequest) {
         try{
-            Product product = client.getProduct(productId);
-            addItem(product, quantity);
+            Product product = client.getProduct(addItemRequest.getProductId());
+            addItem(product, addItemRequest.getQuantity());
         } catch (Exception e){
             throw new ResponseStatusException(NOT_FOUND, "Unable to find resource", e);
         }
